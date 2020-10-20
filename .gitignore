@@ -1,0 +1,4 @@
+# Project exclude paths
+/cep/target/
+/data-stream-api/target/
+/table-api/target/
