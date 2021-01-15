@@ -2,7 +2,7 @@ package demo
 
 import org.apache.flink.streaming.api.scala._
 
-object Bachend {
+object Backend {
 
   def main(args: Array[String]): Unit = {
     val env: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment

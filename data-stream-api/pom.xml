@@ -75,7 +75,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>demo.Bachend</mainClass>
+                            <mainClass>demo.Backend</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

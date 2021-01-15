@@ -12,10 +12,10 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="cep" target="1.8" />
+      <module name="cep" target="1.5" />
       <module name="data-stream-api" target="1.8" />
       <module name="parent" target="1.5" />
-      <module name="table-api" target="1.8" />
+      <module name="table-api" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
