@@ -6,16 +6,16 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="data-stream-api" />
         <module name="table-api" />
+        <module name="data-stream-api" />
         <module name="cep" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="cep" target="1.5" />
+      <module name="cep" target="1.8" />
       <module name="data-stream-api" target="1.8" />
       <module name="parent" target="1.5" />
-      <module name="table-api" target="1.5" />
+      <module name="table-api" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

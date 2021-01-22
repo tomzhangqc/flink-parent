@@ -3,7 +3,7 @@ package blink
 import org.apache.flink.streaming.api.TimeCharacteristic
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment
 import org.apache.flink.table.api._
-import org.apache.flink.table.api.java.StreamTableEnvironment
+import org.apache.flink.table.api.bridge.java.StreamTableEnvironment
 
 object BlinkDemo {
   def main(args: Array[String]): Unit = {

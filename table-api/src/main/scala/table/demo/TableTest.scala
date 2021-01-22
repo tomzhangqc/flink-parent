@@ -6,7 +6,7 @@ import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrderness
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.streaming.api.windowing.time.Time
 import org.apache.flink.table.api.{Table, Tumble}
-import org.apache.flink.table.api.scala._
+import org.apache.flink.table.api._
 import org.apache.flink.types.Row
 import table.element.Test
 
@@ -25,13 +25,13 @@ object TableTest {
           element.time * 1000
         }
       })
-    val tableEnv: StreamTableEnvironment = StreamTableEnvironment.create(env)
-    val dataTable: Table = tableEnv.fromDataStream(lessonDataSet, 'id, 'time.rowtime as 'rowtime)
-    val resultTable = dataTable.window(Tumble over 10.seconds on 'rowtime as 'w)
-      .groupBy("w,id")
-      .select("id,w.end")
-    resultTable.toRetractStream[Row].print("stream table")
-    dataTable.printSchema()
+//    val tableEnv: StreamTableEnvironment = StreamTableEnvironment.create(env)
+//    val dataTable: Table = tableEnv.fromDataStream(lessonDataSet, 'id, 'time.rowtime as 'rowtime)
+//    val resultTable = dataTable.window(Tumble over 10.seconds on 'rowtime as 'w)
+//      .groupBy("w,id")
+//      .select("id,w.end")
+//    resultTable.toRetractStream[Row].print("stream table")
+//    dataTable.printSchema()
     env.execute("stream word count job")
   }
 }
