@@ -9,7 +9,8 @@ object BlinkDemo {
   def main(args: Array[String]): Unit = {
     val env = StreamExecutionEnvironment.getExecutionEnvironment
     env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime)
-    val blinkSettings: EnvironmentSettings = EnvironmentSettings.newInstance()
+    val blinkSettings: EnvironmentSettings = EnvironmentSettings
+      .newInstance()
       .useBlinkPlanner()
       .inStreamingMode()
       .build()
@@ -38,29 +39,32 @@ object BlinkDemo {
         | 'format.derive-schema' = 'true'
         |)
       """.stripMargin
-    val createSinkTable: String =
-      """
-        |create table demo2(
-        | id INT COMMENT 'ID',
-        | age INT COMMENT 'age'
-        |)
-        |WITH(
-        | 'connector.type' = 'elasticsearch',
-        | 'connector.version' = '6',
-        | 'connector.hosts' = 'http://localhost:9200',
-        | 'connector.index' = 'flink',
-        | 'connector.document-type' = 'demo',
-        | 'connector.bulk-flush.max-actions' = '1',
-        | 'format.type' = 'json',
-        | 'update-mode' = 'upsert'
-        |)
-      """.stripMargin
-    tableEnv.sqlUpdate(createTable)
-    tableEnv.sqlUpdate(createSinkTable)
+//    val createSinkTable: String =
+//      """
+//        |create table demo2(
+//        | id INT COMMENT 'ID',
+//        | age INT COMMENT 'age'
+//        |)
+//        |WITH(
+//        | 'connector.type' = 'elasticsearch',
+//        | 'connector.version' = '6',
+//        | 'connector.hosts' = 'http://localhost:9200',
+//        | 'connector.index' = 'flink',
+//        | 'connector.document-type' = 'demo',
+//        | 'connector.bulk-flush.max-actions' = '1',
+//        | 'format.type' = 'json',
+//        | 'update-mode' = 'upsert'
+//        |)
+//      """.stripMargin
+    tableEnv.executeSql(createTable)
+//    tableEnv.sqlUpdate(createSinkTable)
     //    val sql = "insert into demo2 select id,TUMBLE_START(rt, INTERVAL '1' SECOND) as window_start," +
     //      "TUMBLE_END(rt, INTERVAL '1' SECOND) as window_end from demo1 GROUP BY TUMBLE(rt, INTERVAL '1' SECOND), id"
-    val sql = "insert into demo2 select id,max(age) from demo1 GROUP BY id"
-    tableEnv.sqlUpdate(sql)
+//    val sql = "insert into demo2 select id,max(age) from demo1 GROUP BY id"
+//    tableEnv.sqlUpdate(sql)
+    val sql="select * from demo1"
+    val result = tableEnv.executeSql(sql)
+    result.print()
     //    result.printSchema()
     //    val dataStream = tableEnv.toRetractStream(result, classOf[Row]);
     //    dataStream.print()
