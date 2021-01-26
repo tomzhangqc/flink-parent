@@ -2,19 +2,18 @@ package demo
 
 import java.util
 import java.util.Properties
-
 import com.google.gson.Gson
+import org.apache.flink.api.common.eventtime.{SerializableTimestampAssigner, WatermarkStrategy}
 import org.apache.flink.api.common.serialization.SimpleStringSchema
 import org.apache.flink.cep.PatternSelectFunction
 import org.apache.flink.cep.scala.{CEP, PatternStream}
 import org.apache.flink.cep.scala.pattern.Pattern
 import org.apache.flink.streaming.api.TimeCharacteristic
-import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrdernessTimestampExtractor
 import org.apache.flink.streaming.api.scala._
-import org.apache.flink.streaming.api.windowing.time.Time
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer
-import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.common.serialization.StringDeserializer
+
+import java.time.Duration
 
 object LoginCep {
   def main(args: Array[String]): Unit = {
@@ -34,15 +33,15 @@ object LoginCep {
         val gson = new Gson
         gson.fromJson(data, classOf[Login])
       })
-      .assignTimestampsAndWatermarks(new BoundedOutOfOrdernessTimestampExtractor[Login](Time.seconds(3)) {
-        override def extractTimestamp(element: Login): Long = element.time * 1000L
-      })
+      .assignTimestampsAndWatermarks(WatermarkStrategy.forBoundedOutOfOrderness(Duration.ofSeconds(3)).withTimestampAssigner(new SerializableTimestampAssigner[Login]() {
+        override def extractTimestamp(element: Login, recordTimestamp: Long): Long = element.time * 1000
+      }))
     val loginPattern: Pattern[Login, Login] = Pattern
       .begin[Login]("first")
       .where(_.status == "fail")
       .times(2)
       .consecutive()
-//      .within(Time.seconds(10))
+    //      .within(Time.seconds(10))
     val patternStream: PatternStream[Login] = CEP.pattern(inputStream.keyBy(_.id), loginPattern)
     val result: DataStream[Fail] = patternStream.select(new FailLogin())
     result.print("result")
