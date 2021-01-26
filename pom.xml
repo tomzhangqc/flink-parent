@@ -33,7 +33,7 @@
 
             <dependency>
                 <groupId>org.apache.flink</groupId>
-                <artifactId>flink-clients_2.11</artifactId>
+                <artifactId>flink-clients_${scala.version}</artifactId>
                 <version>${flink.version}</version>
             </dependency>
 

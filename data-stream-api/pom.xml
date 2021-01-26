@@ -19,6 +19,11 @@
 
         <dependency>
             <groupId>org.apache.flink</groupId>
+            <artifactId>flink-clients_${scala.version}</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-kafka_${scala.version}</artifactId>
         </dependency>
     </dependencies>
