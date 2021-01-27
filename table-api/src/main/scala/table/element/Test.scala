@@ -1,5 +1,5 @@
 package table.element
 
-case class Test(id: Int, time: Long) {
+case class Test(id: Int, time: Long, color: String) {
 
 }
