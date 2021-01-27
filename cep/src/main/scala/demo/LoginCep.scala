@@ -24,7 +24,7 @@ object LoginCep {
     properties.setProperty("bootstrap.servers", "localhost:9092")
     properties.setProperty("key.serializer", classOf[StringDeserializer].getName)
     properties.setProperty("value.serializer", classOf[StringDeserializer].getName)
-    properties.setProperty("group.id", "kafka-flink-consumer")
+    properties.setProperty("group.id", "flink-cep")
     properties.setProperty("auto.offset.reset", "latest")
     val stream: DataStream[String] = env.addSource(new FlinkKafkaConsumer[String]("cep_test", new SimpleStringSchema(), properties))
     //    val stream: DataStream[String] = env.socketTextStream("localhost", 7777)
@@ -34,7 +34,7 @@ object LoginCep {
         gson.fromJson(data, classOf[Login])
       })
       .assignTimestampsAndWatermarks(WatermarkStrategy.forBoundedOutOfOrderness(Duration.ofSeconds(3)).withTimestampAssigner(new SerializableTimestampAssigner[Login]() {
-        override def extractTimestamp(element: Login, recordTimestamp: Long): Long = element.time * 1000
+        override def extractTimestamp(element: Login, recordTimestamp: Long): Long = element.time
       }))
     val loginPattern: Pattern[Login, Login] = Pattern
       .begin[Login]("first")
