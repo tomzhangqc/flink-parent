@@ -1,13 +1,8 @@
 package table.demo
 
-import org.apache.flink.api.common.eventtime.{SerializableTimestampAssigner, WatermarkStrategy}
 import org.apache.flink.streaming.api.TimeCharacteristic
 import org.apache.flink.streaming.api.scala._
-import org.apache.flink.table.api._
 import org.apache.flink.table.api.bridge.scala.StreamTableEnvironment
-import table.element.Test
-
-import java.time.Duration
 
 /**
  * @author zhangqingchun
